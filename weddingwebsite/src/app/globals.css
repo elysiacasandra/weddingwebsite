@@ -16,7 +16,16 @@
   }
 }
 
+@font-face {
+  font-family: 'Abhaya Libre';
+  src: url('/fonts/abhaya-libre-regular.woff2') format('woff2'),
+       url('/fonts/abhaya-libre-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
+  font-family: 'Abhaya Libre', sans-serif;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,

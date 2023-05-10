@@ -1,7 +1,10 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Abhaya_Libre } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Abhaya_Libre({
+  subsets: ['sinhala'],
+  weight: '400'
+})
 
 export const metadata = {
   title: 'Create Next App',
