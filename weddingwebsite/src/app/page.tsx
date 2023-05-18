@@ -1,6 +1,6 @@
-import Image from 'next/image';
+'use client'
+import InputSelect from '@/components/InputSelect';
 import React, { useRef, useEffect } from 'react';
-import JakeTaylorImage from "/jake&taylor.png"
 
 export default function Home() {
   type DietaryRequirement = 'None' | 'Vegetarian' | 'Vegan' | 'Halal' | 'Kosher';
@@ -11,8 +11,23 @@ type FormValues = {
   mobileNumber: string;
   firstName: string;
   lastName: string;
-  dietaryRequirement: DietaryRequirement;
+  dietaryRequirement: string;
   additionalGuests: AdditionalGuests;
+  firstNameAG1: string;
+  lastNameAG1: string;
+  dietaryRequirementAG1: string;
+  firstNameAG2: string;
+  lastNameAG2: string;
+  dietaryRequirementAG2: string;
+  firstNameAG3: string;
+  lastNameAG3: string;
+  dietaryRequirementAG3: string;
+  firstNameAG4: string;
+  lastNameAG4: string;
+  dietaryRequirementAG4: string;
+  firstNameAG5: string;
+  lastNameAG5: string;
+  dietaryRequirementAG5: string;
   attendanceStatus: AttendanceStatus[];
 };
 
@@ -23,53 +38,119 @@ const initialFormValues: FormValues = {
   dietaryRequirement: 'None',
   additionalGuests: 0,
   attendanceStatus: [],
+  firstNameAG1: '',
+  lastNameAG1: '',
+  dietaryRequirementAG1: '',
+  firstNameAG2: '',
+  lastNameAG2: '',
+  dietaryRequirementAG2: '',
+  firstNameAG3: '',
+  lastNameAG3: '',
+  dietaryRequirementAG3: '',
+  firstNameAG4: '',
+  lastNameAG4: '',
+  dietaryRequirementAG4: '',
+  firstNameAG5: '',
+  lastNameAG5: '',
+  dietaryRequirementAG5: ''
 };
 
-const dietaryRequirements: DietaryRequirement[] = ['None', 'Vegetarian', 'Vegan', 'Halal', 'Kosher'];
+const scrollToRsvp = () => {
+  const element = document.getElementById('rsvp');
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+};
+
+const scrollToPhotos = () => {
+  const element = document.getElementById('photos');
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+};
+
+const scrollToDresscode = () => {
+  const element = document.getElementById('dresscode');
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+};
+
+const scrollToVenue = () => {
+  const element = document.getElementById('venue');
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+};
+
+const scrollToItinerary = () => {
+  const element = document.getElementById('itinerary');
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+};
+
+// const dietaryRequirements: DietaryRequirement[] = ['None', 'Vegetarian', 'Vegan', 'Halal', 'Kosher'];
 const additionalGuestsOptions: AdditionalGuests[] = [0, 1, 2, 3, 4, 5];
 const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Regretfully decline'];
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div>
+        <div className='h-screen'>
         <video
           src="/The-Continental-Homepage-Web-Loop-v2.mp4"
           autoPlay
           muted
           loop
-          style={{ height: '100%', width: 'auto' }}
+          className='relative h-full w-screen'
         >
           <source src="video.mp4" type="video/mp4" />
         </video> 
-        <div style={{ position: 'absolute', top: 150, left: 15, padding: '1rem' }}>
-          <a href="#" style={{ color: '#FFFFFF' }}>Itinerary</a>
+        <div className='absolute top-1/2 left-15 transform -translate-y-1/2 p-4' style={{ fontSize: '1rem'}}>
+          <a onClick={scrollToItinerary} style={{ color: '#FFFFFF' }}>Itinerary</a>
           <br></br>
           <br></br>
-          <a href="#" style={{ color: '#FFFFFF' }}>Venue</a>
+          <a onClick={scrollToVenue} style={{ color: '#FFFFFF' }}>Venue</a>
           <br></br>
           <br></br>
-          <a href="#" style={{ color: '#FFFFFF' }}>Dress Code</a>
+          <a onClick={scrollToDresscode} style={{ color: '#FFFFFF' }}>Dress Code</a>
           <br></br>
           <br></br>
-          <a href="#" style={{ color: '#FFFFFF' }}>Photos</a>
+          <a onClick={scrollToPhotos} style={{ color: '#FFFFFF' }}>Photos</a>
           <br></br>
           <br></br>
-          <a href="#" style={{ color: '#FFFFFF' }}>RSVP</a>
+          <a onClick={scrollToRsvp} style={{ color: '#FFFFFF' }}>RSVP</a>
         </div>
         <div style={{ position: 'absolute', top: 10, right: 10, padding: '2rem' }}>
-          <button style={{ backgroundColor: '#BFDACC', color: '#729A90', padding: '0.5rem 1.5rem', border: 'none' }}>
+          <button onClick={scrollToRsvp} style={{ backgroundColor: '#BFDACC', color: '#729A90', padding: '0.5rem 1.5rem', border: 'none' }}>
             RSVP
           </button>
         </div>
-        <div style={{ position: 'absolute', bottom: '33%', width: '100%', textAlign: 'center' }}>
-          <div style={{ fontSize: '3rem', color: '#FFF' }}>Jake & Taylor</div>
-          <div className='justify-between'>
-            <div style={{ fontSize: '1rem', color: '#FFF' }}>December 30, 2023</div>
-            <div style={{ fontSize: '1rem', color: '#FFF' }}>The Continental Hotel Sorrento</div>
-          </div>
+        <div style={{ position: 'absolute', bottom: '15%', width: '100%', textAlign: 'center' }}>
+          <div style={{ fontSize: '5rem', color: '#FFF' }}>Jake & Taylor</div>
+            <div className='justify-between' style={{ fontSize: '1rem', color: '#FFF' }}>
+              <p>December 30, 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Continental Hotel Sorrento</p>
+            </div>
         </div>
       </div>
-      <div className='pb-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      </div>
+      <div id='itinerary' className='pb-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <div className='pt-16' style={{ fontSize: '3rem', color: '#2B1105' }}>Itinerary</div>
         <div style={{ display: 'flex', marginTop: '2rem' }}>
           <div  style={{ fontSize: '1.5rem', marginRight: '15rem', color: '#729A90' }}>2pm</div>
@@ -83,7 +164,7 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           <div style={{ fontSize: '1.5rem', color: '#2B1105' }}>Reception</div>
         </div>
       </div>
-      <div style={{ 
+      <div id='venue' style={{ 
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),url(${'/jake&taylor.png'})`,
         backgroundPosition: "top",
         backgroundSize: "cover",
@@ -115,13 +196,13 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           </div>
         </div>
       </div>
-      <div className='pb-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div id='dresscode' className='pb-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <div className='pt-16 pb-8' style={{ fontSize: '3rem', color: '#2B1105' }}>Dress Code</div>
         
           <div style={{ fontSize: '1.5rem', color: '#2B1105' }}>Formal Attire</div>
           
       </div>
-      <div style={{ 
+      <div id='photos' style={{ 
   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),url(${'/theconti.jpeg'})`,
   backgroundPosition: "center",
   backgroundSize: "cover",
@@ -140,7 +221,7 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
     </div>
   </div>
 </div>
-<div className='pb-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+<div id='rsvp' className='pb-16 h-screen bg-FCF9F7 flex flex-col items-center justify-center' >
         <div className='pt-16 pb-8' style={{ fontSize: '3rem', color: '#2B1105' }}>RSVP</div>
         
           <div style={{ fontSize: '1.5rem', color: '#2B1105' }}>Please RSVP by the 1st of September.</div>
@@ -150,7 +231,7 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           Mobile number
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="mobile-number"
           type="text"
         />
@@ -161,7 +242,7 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           First name
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="first-name"
           type="text"
         />
@@ -171,7 +252,7 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           Last name
         </label>
         <input
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
           name="lastName"
           id="lastName"
@@ -179,23 +260,41 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
         />
       </div>
       </div>
-      <div className="flex flex-col my-4">
-  <label htmlFor="dietaryRequirements" className="mb-2 font-semibold text-gray-600">
-    Dietary requirements
-  </label>
-  <select
-    id="dietaryRequirements"
-    name="dietaryRequirements"
-    className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
-  >
-    <option value="">None</option>
-    <option value="vegan">Vegan</option>
-    <option value="vegetarian">Vegetarian</option>
-    <option value="gluten-free">Gluten-free</option>
-    <option value="lactose-free">Lactose-free</option>
-    <option value="nut-free">Nut-free</option>
-    <option value="other">Other</option>
-  </select>
+      <div className="flex flex-col my-4 ">
+      <label className="block text-gray-700 font-bold" htmlFor="mobile-number">
+          Dietary requirements
+        </label>
+  <InputSelect
+                    id="dietaryRequirements"
+                    label="Dietary requirements"
+                    placeholder="Select"
+                    fullWidth
+                    small
+                    options={[
+                      {
+                        value: 'none',
+                        label: 'None',
+                      },
+                      {
+                        value: 'vegetarian',
+                        label: 'Vegetarian',
+                      },
+                      {
+                        value: 'vegan',
+                        label: 'Vegan',
+                      },
+                      {
+                        value: 'glutenfree',
+                        label: 'Gluten Free',
+                      },
+                      {
+                        value: 'other',
+                        label: 'Other',
+                      },
+                    ]}
+                    value={initialFormValues.dietaryRequirement}
+                    onChange={(value) => {scrollToRsvp}}
+                  />
 </div>
 <div className="flex flex-col mb-4">
   <label htmlFor="additionalGuests" className="mb-2 font-semibold text-gray-600">
@@ -206,7 +305,7 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
       <label key={option} className="inline-flex items-center mx-2">
         <input
           type="radio"
-          className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
+          className="form-radio h-4 w-4 text-green-700 transition duration-150 ease-in-out"
           name="additionalGuests"
           value={option}
         />
