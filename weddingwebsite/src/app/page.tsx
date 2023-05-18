@@ -110,7 +110,7 @@ const additionalGuestsOptions: AdditionalGuests[] = [0, 1, 2, 3, 4, 5];
 const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Regretfully decline'];
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <main className="flex min-h-screen flex-col justify-between">
       <div>
         <div className='h-screen'>
         <video
@@ -118,24 +118,28 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           autoPlay
           muted
           loop
-          className='relative h-full w-screen'
+          style={{
+            width: 'auto',
+            height: '100%',
+            objectFit: 'cover',
+          }}
         >
           <source src="video.mp4" type="video/mp4" />
         </video> 
-        <div className='absolute top-1/2 left-15 transform -translate-y-1/2 p-4' style={{ fontSize: '1rem'}}>
-          <a onClick={scrollToItinerary} style={{ color: '#FFFFFF' }}>Itinerary</a>
+        <div className='absolute top-1/2 left-15 transform -translate-y-1/2 p-4' style={{ fontSize: '1.2rem'}}>
+          <button onClick={scrollToItinerary} style={{ color: '#FFFFFF' }}>Itinerary</button>
           <br></br>
           <br></br>
-          <a onClick={scrollToVenue} style={{ color: '#FFFFFF' }}>Venue</a>
+          <button onClick={scrollToVenue} style={{ color: '#FFFFFF' }}>Venue</button>
           <br></br>
           <br></br>
-          <a onClick={scrollToDresscode} style={{ color: '#FFFFFF' }}>Dress Code</a>
+          <button onClick={scrollToDresscode} style={{ color: '#FFFFFF' }}>Dress Code</button>
           <br></br>
           <br></br>
-          <a onClick={scrollToPhotos} style={{ color: '#FFFFFF' }}>Photos</a>
+          <button onClick={scrollToPhotos} style={{ color: '#FFFFFF' }}>Photos</button>
           <br></br>
           <br></br>
-          <a onClick={scrollToRsvp} style={{ color: '#FFFFFF' }}>RSVP</a>
+          <button onClick={scrollToRsvp} style={{ color: '#FFFFFF' }}>RSVP</button>
         </div>
         <div style={{ position: 'absolute', top: 10, right: 10, padding: '2rem' }}>
           <button onClick={scrollToRsvp} style={{ backgroundColor: '#BFDACC', color: '#729A90', padding: '0.5rem 1.5rem', border: 'none' }}>
@@ -144,28 +148,42 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
         </div>
         <div style={{ position: 'absolute', bottom: '15%', width: '100%', textAlign: 'center' }}>
           <div style={{ fontSize: '5rem', color: '#FFF' }}>Jake & Taylor</div>
-            <div className='justify-between' style={{ fontSize: '1rem', color: '#FFF' }}>
+            <div className='justify-between' style={{ fontSize: '1.2rem', color: '#FFF' }}>
               <p>December 30, 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Continental Hotel Sorrento</p>
             </div>
         </div>
       </div>
       </div>
       <div id='itinerary' className='pb-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div className='pt-16' style={{ fontSize: '3rem', color: '#2B1105' }}>Itinerary</div>
+        <div className='pt-16' style={{ fontSize: '3rem', color: '#2B1105',  }}>Itinerary</div>
+        <div className='' style={{ fontSize: '1rem', color: '#2B1105', textAlign: 'center' }}>
+              <p>December 30, 2023</p>
+              <p>The Continental Hotel Sorrento</p>
+            </div>
         <div style={{ display: 'flex', marginTop: '2rem' }}>
-          <div  style={{ fontSize: '1.5rem', marginRight: '15rem', color: '#729A90' }}>2pm</div>
+          <div  style={{ fontSize: '1.5rem', marginRight: '35rem', color: '#729A90' }}>2pm</div>
           <div>
-          <div style={{ fontSize: '1.5rem', color: '#2B1105' }}>Ceremony</div>
-          <div style={{ fontSize: '1rem', color: '#2B1105' }}>Hello</div>
+          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Ceremony</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Hello</div>
           </div>
         </div>
         <div style={{ display: 'flex', marginTop: '2rem' }}>
-          <div style={{ fontSize: '1.5rem', marginRight: '15rem', color: '#729A90' }}>5pm</div>
-          <div style={{ fontSize: '1.5rem', color: '#2B1105' }}>Reception</div>
-        </div>
+        <div  style={{ fontSize: '1.5rem', marginRight: '35rem', color: '#729A90' }}>5pm</div>
+          <div>
+          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Reception</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Hello</div>
+          </div>
+      </div>
+      <div style={{ display: 'flex', marginTop: '2rem' }}>
+        <div  style={{ fontSize: '1.5rem', marginRight: '35rem', color: '#729A90' }}>11pm</div>
+          <div>
+          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Afterparty</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Hello</div>
+          </div>
+      </div>
       </div>
       <div id='venue' style={{ 
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),url(${'/jake&taylor.png'})`,
+backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35)), url('/jake&taylor.png')`,
         backgroundPosition: "top",
         backgroundSize: "cover",
         display: "flex",
@@ -203,18 +221,18 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           
       </div>
       <div id='photos' style={{ 
-  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),url(${'/theconti.jpeg'})`,
-  backgroundPosition: "center",
+  backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35)),url(${'/theconti.jpeg'})`,
+  backgroundPosition: "top",
   backgroundSize: "cover",
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  justifyContent: "flex-end",
+  alignItems: "flex-end",
   flexDirection: "column",
   width: "100vw",
 }}>
-  <div className='py-36'>
-    <div className='' style={{ color: "#FFFFFF" }}>
-      <h3 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Photos</h3>
+  <div className='pt-8 pb-72 mr-8'>
+    <div className='' style={{ color: "#2B1105" }}>
+      <h3 style={{ fontSize: "3rem", marginBottom: "1rem" }}>Photos</h3>
       <p style={{ fontSize: "1rem" }}>
         Return here once Jake & Taylor tie the knot. 
       </p>
