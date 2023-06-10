@@ -127,7 +127,6 @@ const submitForm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
   axios.post('https://api.jotform.com/form/231597280572058/submissions?apiKey=29c52d502b1011d0b7099b54077218ca', newData)
   .then(response => {
-    console.log(response.data);
     setMobileNumber('');
 setEmail('');
 setFirstName('');
@@ -160,7 +159,7 @@ setAttendanceStatusFinal('');
   });
 }
 
-const handleAdditionalGuestsChange = (event) => {
+const handleAdditionalGuestsChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
   setAdditionalGuests(event.target.value);
 };
 
@@ -287,7 +286,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255,
           <div style={{ color: "#2B1105", width: "60%" }}>
             <h3 className="text-center" style={{ fontSize: "2rem", marginBottom: "1rem" }}>Parking</h3>
             <p className="text-center" style={{ fontSize: "1rem" }}>
-              There are public parking spaces under the hotel, however, these can't be reserved. There is full day parking behind IGA and on Kerferd Avenue that we recommend using.
+              There are public parking spaces under the hotel, however, these can not be reserved. There is full day parking behind IGA and on Kerferd Avenue that we recommend using.
             </p>
           </div>
           </div>
@@ -321,7 +320,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
           <div style={{ color: "#FFFFFF", width: "30%" }}>
             <h3 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Parking</h3>
             <p style={{ fontSize: "1rem" }}>
-              There are public parking spaces under the hotel, however, these can't be reserved. There is full day parking behind IGA and on Kerferd Avenue that we recommend using.
+              There are public parking spaces under the hotel, however, these can not be reserved. There is full day parking behind IGA and on Kerferd Avenue that we recommend using.
             </p>
           </div>
           <div style={{ color: "#FFFFFF", width: "30%" }}>
