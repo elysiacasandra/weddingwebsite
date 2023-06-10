@@ -1,6 +1,5 @@
-import classNames from 'classNames';
+import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
 import { ChevronDown } from 'react-feather';
 
 export interface IInputSelectOption {
@@ -31,26 +30,34 @@ export default function InputSelect({
   fullWidth = false,
   small = false,
 }: IInputSelect): JSX.Element {
+  const [customOption, setCustomOption] = useState('');
+
+  const handleCustomOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCustomOption(event.target.value);
+  };
+
+  const handleCustomOptionSelect = () => {
+    onChange(customOption);
+    setCustomOption('');
+  };
+
   return (
     <div
-      className={classNames(
-        light ? 'w-auto' : '',
-        fullWidth ? 'w-full' : 'w-72 max-w-full',
-      )}
+      className={`${
+        light ? 'w-auto' : ''
+      } ${fullWidth ? 'w-full' : 'w-72 max-w-full'}`}
       id={id}
     >
       <Listbox value={value} onChange={onChange}>
         <div className="relative">
           <Listbox.Button
-            className={classNames(
-              'relative text-base bg-white py-5 leading-5 pl-3 pr-10 text-left rounded-md focus:outline-none border',
-              value === '' ? 'text-grey-500' : '',
+            className={`relative text-base bg-white py-5 leading-5 pl-3 pr-10 text-left rounded-md focus:outline-none border ${
+              value === '' ? 'text-grey-500' : ''
+            } ${
               light
                 ? 'border-grey-100 text-grey-50 w-auto'
-                : 'border-grey-300 text-grey-700 w-full',
-              small ? 'py-2.5' : 'py-3.5',
-              label ? 'mt-1' : '',
-            )}
+                : 'border-grey-300 text-grey-700 w-full'
+            } ${small ? 'py-1.5' : 'py-3.5'} ${label ? 'mt-1' : ''}`}
           >
             <span className="block truncate">
               {value === ''
@@ -90,8 +97,26 @@ export default function InputSelect({
                       {item.label}
                     </span>
                   )}
-                </Listbox.Option>
+                </                Listbox.Option>
               ))}
+              <Listbox.Option
+                className={({ active }) =>
+                  `cursor-default select-none relative py-2 px-3 ${
+                    active ? 'text-purple-900 bg-purple-100' : 'text-grey-900'
+                  }`
+                }
+                value={customOption}
+              >
+                {({ selected }) => (
+                  <span
+                    className={`block truncate ${
+                      selected ? 'font-bold' : 'font-normal'
+                    }`}
+                  >
+                    {customOption}
+                  </span>
+                )}
+              </Listbox.Option>
             </Listbox.Options>
           </Transition>
         </div>
@@ -99,3 +124,4 @@ export default function InputSelect({
     </div>
   );
 }
+

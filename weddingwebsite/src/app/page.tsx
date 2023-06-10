@@ -1,59 +1,46 @@
 'use client'
+import Input from '@/components/Input';
 import InputSelect from '@/components/InputSelect';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 export default function Home() {
-  type DietaryRequirement = 'None' | 'Vegetarian' | 'Vegan' | 'Halal' | 'Kosher';
-type AdditionalGuests = 0 | 1 | 2 | 3 | 4 | 5;
-type AttendanceStatus = 'Accept with pleasure' | 'Regretfully decline';
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
-type FormValues = {
-  mobileNumber: string;
-  firstName: string;
-  lastName: string;
-  dietaryRequirement: string;
-  additionalGuests: AdditionalGuests;
-  firstNameAG1: string;
-  lastNameAG1: string;
-  dietaryRequirementAG1: string;
-  firstNameAG2: string;
-  lastNameAG2: string;
-  dietaryRequirementAG2: string;
-  firstNameAG3: string;
-  lastNameAG3: string;
-  dietaryRequirementAG3: string;
-  firstNameAG4: string;
-  lastNameAG4: string;
-  dietaryRequirementAG4: string;
-  firstNameAG5: string;
-  lastNameAG5: string;
-  dietaryRequirementAG5: string;
-  attendanceStatus: AttendanceStatus[];
-};
+const [mobileNumber, setMobileNumber] = useState('');
+const [email, setEmail] = useState<string>('')
+const [firstName, setFirstName] = useState<string>('')
+const [lastName, setLastName] = useState<string>('')
+const [dietaryRequirement, setDietaryRequirement] = useState<string>('')
+const [additionalGuests, setAdditionalGuests] = useState()
+const [firstNameAG1, setFirstNameAG1] = useState<string>('')
+const [lastNameAG1, setLastNameAG1] = useState<string>('')
+const [dietaryRequirementAG1, setDietaryRequirementAG1] = useState<string>('')
+const [firstNameAG2, setFirstNameAG2] = useState<string>('')
+const [lastNameAG2, setLastNameAG2] = useState<string>('')
+const [dietaryRequirementAG2, setDietaryRequirementAG2] = useState<string>('')
+const [firstNameAG3, setFirstNameAG3] = useState<string>('')
+const [lastNameAG3, setLastNameAG3] = useState<string>('')
+const [dietaryRequirementAG3, setDietaryRequirementAG3] = useState<string>('')
+const [firstNameAG4, setFirstNameAG4] = useState<string>('')
+const [lastNameAG4, setLastNameAG4] = useState<string>('')
+const [dietaryRequirementAG4, setDietaryRequirementAG4] = useState<string>('')
+const [firstNameAG5, setFirstNameAG5] = useState<string>('')
+const [lastNameAG5, setLastNameAG5] = useState<string>('')
+const [dietaryRequirementAG5, setDietaryRequirementAG5] = useState<string>('')
+const [attendanceStatus, setAttendanceStatus] = useState<string>('')
+const [screenSize, setScreenSize] = useState(window.innerWidth);
 
-const initialFormValues: FormValues = {
-  mobileNumber: '',
-  firstName: '',
-  lastName: '',
-  dietaryRequirement: 'None',
-  additionalGuests: 0,
-  attendanceStatus: [],
-  firstNameAG1: '',
-  lastNameAG1: '',
-  dietaryRequirementAG1: '',
-  firstNameAG2: '',
-  lastNameAG2: '',
-  dietaryRequirementAG2: '',
-  firstNameAG3: '',
-  lastNameAG3: '',
-  dietaryRequirementAG3: '',
-  firstNameAG4: '',
-  lastNameAG4: '',
-  dietaryRequirementAG4: '',
-  firstNameAG5: '',
-  lastNameAG5: '',
-  dietaryRequirementAG5: ''
-};
+  const handleWindowResize = () => {
+    setScreenSize(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
 const scrollToRsvp = () => {
   const element = document.getElementById('rsvp');
@@ -65,34 +52,27 @@ const scrollToRsvp = () => {
   }
 };
 
-const scrollToPhotos = () => {
-  const element = document.getElementById('photos');
-  if (element) {
-    window.scrollTo({
-      top: element.offsetTop,
-      behavior: 'smooth'
-    });
-  }
-};
-
-const scrollToDresscode = () => {
-  const element = document.getElementById('dresscode');
-  if (element) {
-    window.scrollTo({
-      top: element.offsetTop,
-      behavior: 'smooth'
-    });
-  }
-};
-
 const scrollToVenue = () => {
-  const element = document.getElementById('venue');
-  if (element) {
-    window.scrollTo({
-      top: element.offsetTop,
-      behavior: 'smooth'
-    });
+  if (screenSize < 768) {
+    const element = document.getElementById('venue');
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop,
+        behavior: 'smooth'
+      });
+    }
   }
+  else{
+    const element = document.getElementById('venue1');
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  
 };
 
 const scrollToItinerary = () => {
@@ -105,9 +85,57 @@ const scrollToItinerary = () => {
   }
 };
 
-// const dietaryRequirements: DietaryRequirement[] = ['None', 'Vegetarian', 'Vegan', 'Halal', 'Kosher'];
-const additionalGuestsOptions: AdditionalGuests[] = [0, 1, 2, 3, 4, 5];
-const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Regretfully decline'];
+const handleAttendanceChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+  setAttendanceStatus(event.target.value);
+};
+
+const submitForm = async () => {
+  const apiUrl = 'https://api.jotform.com/form/231597280572058/submission';
+  const apiKey = '29c52d502b1011d0b7099b54077218ca';
+  const formData = {
+    // Specify the form data that you want to submit
+    // For example:
+    submission: {
+      answers: [
+        {
+          type: 'control_textbox',
+          text: 'Full Name',
+          answer: 'John Doe',
+        },
+        // Add more fields as needed
+      ],
+    },
+  };
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'APIKEY': apiKey,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      // Success
+      console.log('Form submission successful');
+      setSuccess('Thank you for your RSVP! We look forward to seeing you at our wedding.')
+    } else {
+      // Error
+      console.error('Form submission failed');
+      setError('There was an error. Please review the fields')
+    }
+  } catch (error) {
+    console.error('An error occurred while submitting the form', error);
+  }
+};
+
+console.log(additionalGuests)
+
+const handleAdditionalGuestsChange = (event) => {
+  setAdditionalGuests(event.target.value);
+};
 
   return (
     <main className="flex min-h-screen flex-col justify-between">
@@ -133,12 +161,6 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           <button onClick={scrollToVenue} style={{ color: '#FFFFFF' }}>Venue</button>
           <br></br>
           <br></br>
-          <button onClick={scrollToDresscode} style={{ color: '#FFFFFF' }}>Dress Code</button>
-          <br></br>
-          <br></br>
-          <button onClick={scrollToPhotos} style={{ color: '#FFFFFF' }}>Photos</button>
-          <br></br>
-          <br></br>
           <button onClick={scrollToRsvp} style={{ color: '#FFFFFF' }}>RSVP</button>
         </div>
         <div style={{ position: 'absolute', top: 10, right: 10, padding: '2rem' }}>
@@ -147,43 +169,114 @@ const attendanceStatusOptions: AttendanceStatus[] = ['Accept with pleasure', 'Re
           </button>
         </div>
         <div style={{ position: 'absolute', bottom: '15%', width: '100%', textAlign: 'center' }}>
-          <div style={{ fontSize: '5rem', color: '#FFF' }}>Jake & Taylor</div>
-            <div className='justify-between' style={{ fontSize: '1.2rem', color: '#FFF' }}>
+          <div className="text-white text-6xl md:text-8xl">Jake & Taylor</div>
+            <div className='justify-between text-white text-md md:text-lg'>
               <p>December 30, 2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Continental Hotel Sorrento</p>
             </div>
         </div>
       </div>
       </div>
-      <div id='itinerary' className='pb-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div className='pt-16' style={{ fontSize: '3rem', color: '#2B1105',  }}>Itinerary</div>
+      <div id='itinerary' className='py-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div className='' style={{ fontSize: '3rem', color: '#2B1105',  }}>Itinerary</div>
         <div className='' style={{ fontSize: '1rem', color: '#2B1105', textAlign: 'center' }}>
               <p>December 30, 2023</p>
               <p>The Continental Hotel Sorrento</p>
             </div>
+            <div className="hidden md:block">
         <div style={{ display: 'flex', marginTop: '2rem' }}>
-          <div  style={{ fontSize: '1.5rem', marginRight: '35rem', color: '#729A90' }}>2pm</div>
+          <div  className="" style={{ fontSize: '1.5rem', marginRight: '35rem', color: '#729A90' }}>2pm</div>
           <div>
           <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Ceremony</div>
-          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Hello</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Hosted in the Grand Ballroom.</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Please arrive 15 mins early.</div>
           </div>
         </div>
         <div style={{ display: 'flex', marginTop: '2rem' }}>
         <div  style={{ fontSize: '1.5rem', marginRight: '35rem', color: '#729A90' }}>5pm</div>
           <div>
-          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Reception</div>
-          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Hello</div>
+          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Drinks</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Meet at the Sunset Terrace.</div>
           </div>
       </div>
       <div style={{ display: 'flex', marginTop: '2rem' }}>
-        <div  style={{ fontSize: '1.5rem', marginRight: '35rem', color: '#729A90' }}>11pm</div>
+        <div  style={{ fontSize: '1.5rem', marginRight: '35rem', color: '#729A90' }}>6pm</div>
           <div>
-          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Afterparty</div>
-          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Hello</div>
+          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Reception</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Held at Halcyon Hall.</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Will conclude at approximately 11pm.</div>
+          
           </div>
       </div>
       </div>
+      <div className="md:hidden">
+        <div style={{ display: 'flex', marginTop: '2rem' }}>
+          <div  className="" style={{ fontSize: '1.5rem', marginLeft: '35rem', color: '#729A90' }}></div>
+          <div>
+          <div  className="" style={{ fontSize: '1.5rem', marginLeft: '-25rem', color: '#729A90' }}>2pm</div>
+          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Ceremony</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Hosted in the Grand Ballroom.</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Please arrive 15 mins early.</div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', marginTop: '2rem' }}>
+        <div  className="" style={{ fontSize: '1.5rem', marginLeft: '35rem', color: '#729A90' }}></div>
+          <div>
+          <div  className="" style={{ fontSize: '1.5rem', marginLeft: '-25rem', color: '#729A90' }}>5pm</div>
+          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Drinks</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Meet at the Sunset Terrace.</div>
+          </div>
+      </div>
+      <div style={{ display: 'flex', marginTop: '2rem' }}>
+      <div  className="" style={{ fontSize: '1.5rem', marginLeft: '35rem', color: '#729A90' }}></div>
+          <div>
+          <div  className="" style={{ fontSize: '1.5rem', marginLeft: '-25rem', color: '#729A90' }}>6pm</div>
+          <div style={{ fontSize: '1.5rem', color: '#2B1105', marginLeft: '-25rem' }}>Reception</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Held at Halcyon Hall.</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105', marginLeft: '-25rem' }}>Will conclude at approximately 11pm.</div>
+          
+          </div>
+      </div>
+      </div>
+      </div>
+      <div className="md:hidden">
       <div id='venue' style={{ 
 backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35)), url('/jake&taylor.png')`,
+        backgroundPosition: "top",
+        backgroundSize: "cover",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column"
+      }}>
+        <div className='py-16 w-full' style={{ display: "flex", justifyContent: "center", width: "90%" }}>
+          <div style={{ color: "#2B1105", width: "60%" }}>
+            <h3 className="text-center" style={{ fontSize: "2rem", marginBottom: "1rem" }}>Venue</h3>
+            <p className="text-center" style={{ fontSize: "1rem" }}>
+              Hosted at The Continental Hotel Sorrento. There will be signage around the venue to help direct guests during the day. 
+            </p>
+          </div>
+          </div>
+          <div className='pb-16 w-full' style={{ display: "flex", justifyContent: "center", width: "90%" }}>
+          <div style={{ color: "#2B1105", width: "60%" }}>
+            <h3 className="text-center" style={{ fontSize: "2rem", marginBottom: "1rem" }}>Parking</h3>
+            <p className="text-center" style={{ fontSize: "1rem" }}>
+              There are public parking spaces under the hotel, however, these can't be reserved. There is full day parking behind IGA and on Kerferd Avenue that we recommend using.
+            </p>
+          </div>
+          </div>
+          <div className='pb-16 w-full' style={{ display: "flex", justifyContent: "center", width: "90%" }}>
+          <div style={{ color: "#2B1105", width: "60%" }}>
+            <h3 className="text-center" style={{ fontSize: "2rem", marginBottom: "1rem" }}>Gifts</h3>
+            <p className="text-center" style={{ fontSize: "1rem" }}>
+              Your presence at our wedding is truly the greatest gift. However should you wish to honour us further, a wishing well will be present on the evening. 
+            </p>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div className='hidden md:block'>
+      <div id='venue1' style={{ 
+backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url('/theconti.jpeg')`,
         backgroundPosition: "top",
         backgroundSize: "cover",
         display: "flex",
@@ -195,15 +288,13 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255,
           <div style={{ color: "#FFFFFF", width: "30%" }}>
             <h3 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Venue</h3>
             <p style={{ fontSize: "1rem" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Sed non arcu eget ex tincidunt bibendum. Sed eget augue ut felis maximus sagittis. 
+              Hosted at The Continental Hotel Sorrento. There will be signage around the venue to help direct guests during the day. 
             </p>
           </div>
           <div style={{ color: "#FFFFFF", width: "30%" }}>
             <h3 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Parking</h3>
             <p style={{ fontSize: "1rem" }}>
-              Aliquam vitae diam ligula. Sed malesuada augue id neque ultrices lobortis. 
-              Sed vel ligula eleifend, vestibulum enim eu, elementum sapien. 
+              There are public parking spaces under the hotel, however, these can't be reserved. There is full day parking behind IGA and on Kerferd Avenue that we recommend using.
             </p>
           </div>
           <div style={{ color: "#FFFFFF", width: "30%" }}>
@@ -214,149 +305,293 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255,
           </div>
         </div>
       </div>
-      <div id='dresscode' className='pb-16' style={{ height: '33%', backgroundColor: 'FCF9F7', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div className='pt-16 pb-8' style={{ fontSize: '3rem', color: '#2B1105' }}>Dress Code</div>
-        
-          <div style={{ fontSize: '1.5rem', color: '#2B1105' }}>Formal Attire</div>
-          
-      </div>
-      <div id='photos' style={{ 
-  backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35)),url(${'/theconti.jpeg'})`,
-  backgroundPosition: "top",
-  backgroundSize: "cover",
-  display: "flex",
-  justifyContent: "flex-end",
-  alignItems: "flex-end",
-  flexDirection: "column",
-  width: "100vw",
-}}>
-  <div className='pt-8 pb-72 mr-8'>
-    <div className='' style={{ color: "#2B1105" }}>
-      <h3 style={{ fontSize: "3rem", marginBottom: "1rem" }}>Photos</h3>
-      <p style={{ fontSize: "1rem" }}>
-        Return here once Jake & Taylor tie the knot. 
-      </p>
     </div>
-  </div>
-</div>
-<div id='rsvp' className='pb-16 h-screen bg-FCF9F7 flex flex-col items-center justify-center' >
-        <div className='pt-16 pb-8' style={{ fontSize: '3rem', color: '#2B1105' }}>RSVP</div>
+<div id='rsvp' className='pb-16 min-h-screen bg-FCF9F7 flex flex-col items-center justify-center' >
+        <div className='pt-16 pb-4' style={{ fontSize: '3rem', color: '#2B1105' }}>RSVP</div>
         
-          <div style={{ fontSize: '1.5rem', color: '#2B1105' }}>Please RSVP by the 1st of September.</div>
+          <div style={{ fontSize: '1rem', color: '#2B1105' }}>Please RSVP by the 1st of August.</div>
           <form>
       <div className="mt-8 mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="mobile-number">
-          Mobile number
+      <label className="block text-gray-700 font-bold mb-2" htmlFor="mobile-number">
+          Mobile number*
         </label>
-        <input
+        <Input
           className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="mobile-number"
           type="text"
+          onChange={(value) => setMobileNumber(value)}
+          value={mobileNumber}
+        />
+      </div>
+      <div className="mt-4 mb-4">
+        <label className="block text-gray-700 font-bold mb-2" htmlFor="mobile-number">
+          Email
+        </label>
+        <Input
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          onChange={(value) => setEmail(value)}
+          value={email}
         />
       </div>
       <div className='grid grid-cols-2'>
       <div className="col-span-1 mr-1">
         <label className="block text-gray-700 font-bold" htmlFor="first-name">
-          First name
+          First name*
         </label>
-        <input
+        <Input
           className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="first-name"
           type="text"
+          onChange={(value) => setFirstName(value)}
+          value={firstName}
         />
       </div>
       <div className="col-span-1 ml-1">
         <label htmlFor="lastName" className="mb-2 font-semibold text-gray-600">
-          Last name
+          Last name*
         </label>
-        <input
-        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        <Input
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
-          name="lastName"
-          id="lastName"
-          required
+          onChange={(value) => setLastName(value)}
+          value={lastName}
         />
       </div>
       </div>
       <div className="flex flex-col my-4 ">
       <label className="block text-gray-700 font-bold" htmlFor="mobile-number">
-          Dietary requirements
+          Dietary requirements - if any
         </label>
-  <InputSelect
-                    id="dietaryRequirements"
-                    label="Dietary requirements"
-                    placeholder="Select"
-                    fullWidth
-                    small
-                    options={[
-                      {
-                        value: 'none',
-                        label: 'None',
-                      },
-                      {
-                        value: 'vegetarian',
-                        label: 'Vegetarian',
-                      },
-                      {
-                        value: 'vegan',
-                        label: 'Vegan',
-                      },
-                      {
-                        value: 'glutenfree',
-                        label: 'Gluten Free',
-                      },
-                      {
-                        value: 'other',
-                        label: 'Other',
-                      },
-                    ]}
-                    value={initialFormValues.dietaryRequirement}
-                    onChange={(value) => {scrollToRsvp}}
-                  />
+        <Input
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          onChange={(value) => setDietaryRequirement(value)}
+          value={dietaryRequirement}
+        />
+ 
 </div>
 <div className="flex flex-col mb-4">
   <label htmlFor="additionalGuests" className="mb-2 font-semibold text-gray-600">
-    Number of additional guests (excluding yourself)
+    Number of additional guests (excluding yourself)*
   </label>
   <div className="flex flex-row justify-start items-center">
-    {[0, 1, 2, 3, 4, 5].map((option) => (
-      <label key={option} className="inline-flex items-center mx-2">
-        <input
-          type="radio"
-          className="form-radio h-4 w-4 text-green-700 transition duration-150 ease-in-out"
-          name="additionalGuests"
-          value={option}
-        />
-        <span className="ml-2 text-gray-700">{option}</span>
-      </label>
-    ))}
+  {[0, 1, 2, 3, 4, 5].map((option) => (
+        <label key={option} className="inline-flex items-center mx-2">
+          <input
+            type="radio"
+            className="form-radio h-4 w-4 text-green-700 checked:bg-green-700 transition duration-150 ease-in-out"
+            name="additionalGuests"
+            value={option}
+            checked={additionalGuests === option.toString()}
+            onChange={handleAdditionalGuestsChange}
+          />
+          <span className="ml-2 text-gray-700">{option}</span>
+        </label>
+      ))}
   </div>
 </div>
+{additionalGuests !== undefined && additionalGuests !== '0' && (
+  <><div className='grid grid-cols-2'>
+              <div className="col-span-1 mr-1">
+                <label className="block text-gray-700 font-bold" htmlFor="first-name">
+                  First name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setFirstNameAG1(value)}
+                  value={firstNameAG1} />
+              </div>
+              <div className="col-span-1 ml-1">
+                <label htmlFor="lastName" className="mb-2 font-semibold text-gray-600">
+                  Last name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setLastNameAG1(value)}
+                  value={lastNameAG1} />
+              </div>
+            </div><div className="flex flex-col my-4 ">
+                <label className="block text-gray-700 font-bold" htmlFor="mobile-number">
+                  Dietary requirements - if any
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setDietaryRequirementAG1(value)}
+                  value={dietaryRequirementAG1} />
+
+              </div></>
+)}
+{additionalGuests !== undefined && additionalGuests !== '0' && additionalGuests !== '1' && (
+  <><div className='grid grid-cols-2'>
+              <div className="col-span-1 mr-1">
+                <label className="block text-gray-700 font-bold" htmlFor="first-name">
+                  First name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setFirstNameAG2(value)}
+                  value={firstNameAG2} />
+              </div>
+              <div className="col-span-1 ml-1">
+                <label htmlFor="lastName" className="mb-2 font-semibold text-gray-600">
+                  Last name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setLastNameAG2(value)}
+                  value={lastNameAG2} />
+              </div>
+            </div><div className="flex flex-col my-4 ">
+                <label className="block text-gray-700 font-bold" htmlFor="mobile-number">
+                  Dietary requirements - if any
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setDietaryRequirementAG2(value)}
+                  value={dietaryRequirementAG2} />
+
+              </div></>
+)}
+{additionalGuests !== undefined && additionalGuests !== '0' && additionalGuests !== '1' && additionalGuests !== '2' && (
+  <><div className='grid grid-cols-2'>
+              <div className="col-span-1 mr-1">
+                <label className="block text-gray-700 font-bold" htmlFor="first-name">
+                  First name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setFirstNameAG3(value)}
+                  value={firstNameAG3} />
+              </div>
+              <div className="col-span-1 ml-1">
+                <label htmlFor="lastName" className="mb-2 font-semibold text-gray-600">
+                  Last name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setLastNameAG3(value)}
+                  value={lastNameAG3} />
+              </div>
+            </div><div className="flex flex-col my-4 ">
+                <label className="block text-gray-700 font-bold" htmlFor="mobile-number">
+                  Dietary requirements - if any
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setDietaryRequirementAG3(value)}
+                  value={dietaryRequirementAG3} />
+
+              </div></>
+)}
+{additionalGuests !== undefined && additionalGuests !== '0' && additionalGuests !== '1' && additionalGuests !== '2' && additionalGuests !== '3' && (
+  <><div className='grid grid-cols-2'>
+              <div className="col-span-1 mr-1">
+                <label className="block text-gray-700 font-bold" htmlFor="first-name">
+                  First name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setFirstNameAG4(value)}
+                  value={firstNameAG4} />
+              </div>
+              <div className="col-span-1 ml-1">
+                <label htmlFor="lastName" className="mb-2 font-semibold text-gray-600">
+                  Last name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setLastNameAG4(value)}
+                  value={lastNameAG4} />
+              </div>
+            </div><div className="flex flex-col my-4 ">
+                <label className="block text-gray-700 font-bold" htmlFor="mobile-number">
+                  Dietary requirements - if any
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setDietaryRequirementAG4(value)}
+                  value={dietaryRequirementAG4} />
+
+              </div></>
+)}
+{additionalGuests === '5' && (
+  <><div className='grid grid-cols-2'>
+              <div className="col-span-1 mr-1">
+                <label className="block text-gray-700 font-bold" htmlFor="first-name">
+                  First name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setFirstNameAG5(value)}
+                  value={firstNameAG5} />
+              </div>
+              <div className="col-span-1 ml-1">
+                <label htmlFor="lastName" className="mb-2 font-semibold text-gray-600">
+                  Last name*
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setLastNameAG5(value)}
+                  value={lastNameAG5} />
+              </div>
+            </div><div className="flex flex-col my-4 ">
+                <label className="block text-gray-700 font-bold" htmlFor="mobile-number">
+                  Dietary requirements - if any
+                </label>
+                <Input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  onChange={(value) => setDietaryRequirementAG5(value)}
+                  value={dietaryRequirementAG5} />
+
+              </div></>
+)}
 <div className="flex flex-col mb-4">
-  <span className="mb-2 font-semibold text-gray-600">Attendance status</span>
+  <span className="mb-2 font-semibold text-gray-600">Attendance status*</span>
   <div className="flex flex-row justify-start items-center">
-    <label className="inline-flex items-center mx-2">
-      <input
-        type="checkbox"
-        className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
-        name="acceptWithPleasure"
-      />
-      <span className="ml-2 text-gray-700">Accept with pleasure</span>
-    </label>
-    <label className="inline-flex items-center mx-2">
-      <input
-        type="checkbox"
-        className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
-        name="regretfullyDecline"
-      />
-      <span className="ml-2 text-gray-700">Regretfully decline</span>
-    </label>
-  </div>
+  <label className="inline-flex items-center mx-2">
+  <input
+            type="radio"
+            className="form-radio h-4 w-4 text-green-700 transition duration-150 ease-in-out checked:bg-green-700"
+            name="acceptance"
+            value="acceptWithPleasure"
+            checked={attendanceStatus === 'acceptWithPleasure'}
+            onChange={handleAttendanceChange}
+          />
+    <span className="ml-2 text-gray-700">Accept with pleasure</span>
+  </label>
+  <label className="inline-flex items-center mx-2">
+  <input
+            type="radio"
+            className="form-radio h-4 w-4 text-green-700 transition duration-150 ease-in-out checked:bg-green-700"
+            name="acceptance"
+            value="regretfullyDecline"
+            checked={attendanceStatus === 'regretfullyDecline'}
+            onChange={handleAttendanceChange}
+          />
+    <span className="ml-2 text-gray-700">Regretfully decline</span>
+  </label>
 </div>
+</div>
+
 <div className="flex items-center justify-center">
   <button
     type="submit"
-    className="px-6 py-2 text-white font-semibold transition duration-150 ease-in-out shadow-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+    onClick={submitForm}
+    className="px-6 py-2 text-white font-semibold transition duration-150 ease-in-out shadow-md hover:bg-green-700 focus:outline-none focus:shadow-outline-blue active:bg-green-700"
 style={{ backgroundColor: '#BFDACC', color: '#729A90', padding: '0.5rem 1.5rem', border: 'none' }}>
     Submit
   </button>
