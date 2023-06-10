@@ -30,6 +30,7 @@ const [firstNameAG5, setFirstNameAG5] = useState<string>('')
 const [lastNameAG5, setLastNameAG5] = useState<string>('')
 const [dietaryRequirementAG5, setDietaryRequirementAG5] = useState<string>('')
 const [attendanceStatus, setAttendanceStatus] = useState<string>('')
+const [attendanceStatusFinal, setAttendanceStatusFinal] = useState<string>('')
 const [screenSize, setScreenSize] = useState(window.innerWidth);
 
   const handleWindowResize = () => {
@@ -88,56 +89,18 @@ const scrollToItinerary = () => {
 
 const handleAttendanceChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
   setAttendanceStatus(event.target.value);
+  if (event.target.value === "acceptWithPleasure") {
+    setAttendanceStatusFinal('Accept with pleasure')
+  }
+  else {
+    setAttendanceStatusFinal('Regretfully decline')
+  }
 };
 
 const submitForm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
   event.preventDefault();
-  // const url =
-  //   'https://api.jotform.com/form/231597280572058/submission?apiKey=29c52d502b1011d0b7099b54077218ca';
 
-  // // Example request JSON:
-  // const data = {
-  //   submissions: [ {
-  //     "answers": {
-  //         "22": {
-  //             "name": "attendance",
-  //             "text": "Attendance",
-  //             "answer": attendanceStatus
-  //         },
-  //         "24": {
-  //             "name": "dietaryRequirements",
-  //             "text": "Dietary Requirements",
-  //             "answer": dietaryRequirement
-  //         },
-  //         "25": {
-  //             "name": "dietaryRequirements25",
-  //             "text": "Dietary Requirements Guest 1",
-  //             "answer": dietaryRequirementAG1
-  //         },
-  //         "26": {
-  //             "name": "dietaryRequirements26",
-  //             "text": "Dietary Requirements Guest 2",
-  //             "answer": dietaryRequirementAG2
-  //         },
-  //         "27": {
-  //             "name": "dietaryRequirements27",
-  //             "text": "Dietary Requirements Guest 3",
-  //             "answer": dietaryRequirementAG3
-  //         },
-  //         "28": {
-  //             "name": "dietaryRequirements28",
-  //             "text": "Dietary Requirements Guest 4",
-  //             "answer": dietaryRequirementAG4
-  //         },
-  //         "29": {
-  //             "name": "dietaryRequirements29",
-  //             "text": "Dietary Requirements Guest 5",
-  //             "answer": dietaryRequirementAG5
-  //         },
-  //     }
-  // },
-  //   ],
-  // };
+
   const newData = new URLSearchParams();
   newData.append('submission[4_first]', firstName);
   newData.append('submission[4_last]', lastName);
@@ -154,13 +117,46 @@ const submitForm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
   newData.append('submission[30]', mobileNumber);
   newData.append('submission[23]', email);
   newData.append('submission[11]', additionalGuests);
+  newData.append('submission[24]', dietaryRequirement);
+  newData.append('submission[25]', dietaryRequirementAG1);
+  newData.append('submission[26]', dietaryRequirementAG2);
+  newData.append('submission[27]', dietaryRequirementAG3);
+  newData.append('submission[28]', dietaryRequirementAG4);
+  newData.append('submission[29]', dietaryRequirementAG5);
+  newData.append('submission[22]', attendanceStatusFinal);
 
   axios.post('https://api.jotform.com/form/231597280572058/submissions?apiKey=29c52d502b1011d0b7099b54077218ca', newData)
   .then(response => {
     console.log(response.data);
+    setMobileNumber('');
+setEmail('');
+setFirstName('');
+setLastName('');
+setDietaryRequirement('');
+setAdditionalGuests('');
+setFirstNameAG1('');
+setLastNameAG1('');
+setDietaryRequirementAG1('');
+setFirstNameAG2('');
+setLastNameAG2('');
+setDietaryRequirementAG2('');
+setFirstNameAG3('');
+setLastNameAG3('');
+setDietaryRequirementAG3('');
+setFirstNameAG4('');
+setLastNameAG4('');
+setDietaryRequirementAG4('');
+setFirstNameAG5('');
+setLastNameAG5('');
+setDietaryRequirementAG5('');
+setAttendanceStatus('');
+setAttendanceStatusFinal('');
+    scrollToRsvp()
+    setSuccess(' ')
   })
   .catch(error => {
     console.error(error);
+    setError(' ')
   });
 }
 
@@ -340,7 +336,8 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
 <div id='rsvp' className='pb-16 min-h-screen bg-FCF9F7 flex flex-col items-center justify-center' >
         <div className='pt-16 pb-4' style={{ fontSize: '3rem', color: '#2B1105' }}>RSVP</div>
         
-          <div style={{ fontSize: '1rem', color: '#2B1105' }}>Please RSVP by the 1st of August.</div>
+        {success === '' &&  <div style={{ fontSize: '1rem', color: '#2B1105' }}>Please RSVP by the 1st of August.</div>}
+          {success !== '' && <p className="text-green-700">Thank you for your RSVP. We look forward to seeing you on our special day.</p>}
           <form>
       <div className="mt-8 mb-4">
       <label className="block text-gray-700 font-bold mb-2" htmlFor="mobile-number">
@@ -420,7 +417,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
       ))}
   </div>
 </div>
-{additionalGuests !== undefined && additionalGuests !== '0' && (
+{additionalGuests !== '' && additionalGuests !== '0' && (
   <><div className='grid grid-cols-2'>
               <div className="col-span-1 mr-1">
                 <label className="block text-gray-700 font-bold" htmlFor="first-name">
@@ -454,7 +451,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
 
               </div></>
 )}
-{additionalGuests !== undefined && additionalGuests !== '0' && additionalGuests !== '1' && (
+{additionalGuests !== '' && additionalGuests !== '0' && additionalGuests !== '1' && (
   <><div className='grid grid-cols-2'>
               <div className="col-span-1 mr-1">
                 <label className="block text-gray-700 font-bold" htmlFor="first-name">
@@ -488,7 +485,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
 
               </div></>
 )}
-{additionalGuests !== undefined && additionalGuests !== '0' && additionalGuests !== '1' && additionalGuests !== '2' && (
+{additionalGuests !== '' && additionalGuests !== '0' && additionalGuests !== '1' && additionalGuests !== '2' && (
   <><div className='grid grid-cols-2'>
               <div className="col-span-1 mr-1">
                 <label className="block text-gray-700 font-bold" htmlFor="first-name">
@@ -522,7 +519,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
 
               </div></>
 )}
-{additionalGuests !== undefined && additionalGuests !== '0' && additionalGuests !== '1' && additionalGuests !== '2' && additionalGuests !== '3' && (
+{additionalGuests !== '' && additionalGuests !== '0' && additionalGuests !== '1' && additionalGuests !== '2' && additionalGuests !== '3' && (
   <><div className='grid grid-cols-2'>
               <div className="col-span-1 mr-1">
                 <label className="block text-gray-700 font-bold" htmlFor="first-name">
@@ -626,6 +623,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
 style={{ backgroundColor: '#BFDACC', color: '#729A90', padding: '0.5rem 1.5rem', border: 'none' }}>
     Submit
   </button>
+  {error !== '' && <p className="text-red-700">We were unable to submit your RSVP. Please review your form inputs.</p>}
 </div>
 </form>        
       </div>
