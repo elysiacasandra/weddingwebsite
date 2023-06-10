@@ -1,5 +1,6 @@
 'use client'
 import Input from '@/components/Input';
+import axios from 'axios';
 import InputSelect from '@/components/InputSelect';
 import React, { useRef, useEffect, useState } from 'react';
 
@@ -12,7 +13,7 @@ const [email, setEmail] = useState<string>('')
 const [firstName, setFirstName] = useState<string>('')
 const [lastName, setLastName] = useState<string>('')
 const [dietaryRequirement, setDietaryRequirement] = useState<string>('')
-const [additionalGuests, setAdditionalGuests] = useState()
+const [additionalGuests, setAdditionalGuests] = useState<string>('')
 const [firstNameAG1, setFirstNameAG1] = useState<string>('')
 const [lastNameAG1, setLastNameAG1] = useState<string>('')
 const [dietaryRequirementAG1, setDietaryRequirementAG1] = useState<string>('')
@@ -89,49 +90,79 @@ const handleAttendanceChange = (event: { target: { value: React.SetStateAction<s
   setAttendanceStatus(event.target.value);
 };
 
-const submitForm = async () => {
-  const apiUrl = 'https://api.jotform.com/form/231597280572058/submission';
-  const apiKey = '29c52d502b1011d0b7099b54077218ca';
-  const formData = {
-    // Specify the form data that you want to submit
-    // For example:
-    submission: {
-      answers: [
-        {
-          type: 'control_textbox',
-          text: 'Full Name',
-          answer: 'John Doe',
-        },
-        // Add more fields as needed
-      ],
-    },
-  };
+const submitForm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  event.preventDefault();
+  // const url =
+  //   'https://api.jotform.com/form/231597280572058/submission?apiKey=29c52d502b1011d0b7099b54077218ca';
 
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'APIKEY': apiKey,
-      },
-      body: JSON.stringify(formData),
-    });
+  // // Example request JSON:
+  // const data = {
+  //   submissions: [ {
+  //     "answers": {
+  //         "22": {
+  //             "name": "attendance",
+  //             "text": "Attendance",
+  //             "answer": attendanceStatus
+  //         },
+  //         "24": {
+  //             "name": "dietaryRequirements",
+  //             "text": "Dietary Requirements",
+  //             "answer": dietaryRequirement
+  //         },
+  //         "25": {
+  //             "name": "dietaryRequirements25",
+  //             "text": "Dietary Requirements Guest 1",
+  //             "answer": dietaryRequirementAG1
+  //         },
+  //         "26": {
+  //             "name": "dietaryRequirements26",
+  //             "text": "Dietary Requirements Guest 2",
+  //             "answer": dietaryRequirementAG2
+  //         },
+  //         "27": {
+  //             "name": "dietaryRequirements27",
+  //             "text": "Dietary Requirements Guest 3",
+  //             "answer": dietaryRequirementAG3
+  //         },
+  //         "28": {
+  //             "name": "dietaryRequirements28",
+  //             "text": "Dietary Requirements Guest 4",
+  //             "answer": dietaryRequirementAG4
+  //         },
+  //         "29": {
+  //             "name": "dietaryRequirements29",
+  //             "text": "Dietary Requirements Guest 5",
+  //             "answer": dietaryRequirementAG5
+  //         },
+  //     }
+  // },
+  //   ],
+  // };
+  const newData = new URLSearchParams();
+  newData.append('submission[4_first]', firstName);
+  newData.append('submission[4_last]', lastName);
+  newData.append('submission[7_first]', firstNameAG1);
+  newData.append('submission[7_last]', lastNameAG1);
+  newData.append('submission[13_first]', firstNameAG2);
+  newData.append('submission[13_last]', lastNameAG2);
+  newData.append('submission[14_first]', firstNameAG3);
+  newData.append('submission[14_last]', lastNameAG3);
+  newData.append('submission[15_first]', firstNameAG4);
+  newData.append('submission[15_last]', lastNameAG4);
+  newData.append('submission[16_first]', firstNameAG5);
+  newData.append('submission[16_last]', lastNameAG5);
+  newData.append('submission[30]', mobileNumber);
+  newData.append('submission[23]', email);
+  newData.append('submission[11]', additionalGuests);
 
-    if (response.ok) {
-      // Success
-      console.log('Form submission successful');
-      setSuccess('Thank you for your RSVP! We look forward to seeing you at our wedding.')
-    } else {
-      // Error
-      console.error('Form submission failed');
-      setError('There was an error. Please review the fields')
-    }
-  } catch (error) {
-    console.error('An error occurred while submitting the form', error);
-  }
-};
-
-console.log(additionalGuests)
+  axios.post('https://api.jotform.com/form/231597280572058/submissions?apiKey=29c52d502b1011d0b7099b54077218ca', newData)
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
 
 const handleAdditionalGuestsChange = (event) => {
   setAdditionalGuests(event.target.value);
@@ -590,7 +621,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
 <div className="flex items-center justify-center">
   <button
     type="submit"
-    onClick={submitForm}
+    onClick={(event) => submitForm(event)}
     className="px-6 py-2 text-white font-semibold transition duration-150 ease-in-out shadow-md hover:bg-green-700 focus:outline-none focus:shadow-outline-blue active:bg-green-700"
 style={{ backgroundColor: '#BFDACC', color: '#729A90', padding: '0.5rem 1.5rem', border: 'none' }}>
     Submit
