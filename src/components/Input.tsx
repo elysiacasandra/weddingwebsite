@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classNames';
 import { Popover, Transition } from '@headlessui/react';
 import { Copy, Check } from 'react-feather';
 
@@ -48,9 +47,9 @@ export default function Input({
         <p className="mt-2 text-sm text-grey-500">{description}</p>
       )}
       <div
-        className={classNames(
+        className={
           'relative flex rounded-md'
-        )}
+        }
       >
         {preLabel && (
           <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-grey-300 bg-grey-50 text-grey-500 text-sm">
@@ -69,20 +68,9 @@ export default function Input({
           autoComplete={autocomplete || type}
           required={required}
           placeholder={placeholder}
-          className={classNames(
-            'appearance-none transition-all flex-1 block w-full placeholder-grey-500 text-grey-900 focus:outline-none disabled:bg-grey-200 disabled:cursor-not-allowed',
-            preLabel ? 'rounded-r-md' : 'rounded-md',
-            error
-              ? 'text-red-900 border-red-300 focus:ring-red-500 focus:border-red-500'
-              : 'border-grey-300 focus:ring-green-700 focus:border-green-700',
-            icon ? 'text-sm pl-10' : 'text-base',
-            value === 'Click to edit or clear'
-              ? 'bg-grey-50 text-grey-700'
-              : '',
-            simple
-              ? 'border-0 p-0 m-0 leading-5 focus:ring-transparent focus:border-transparent'
-              : 'px-3 py-2 border shadow-sm leading-6',
-          )}
+          className={
+            'appearance-none transition-all flex-1 block w-full placeholder-grey-500 text-grey-900 focus:outline-none disabled:bg-grey-200 disabled:cursor-not-allowed'
+            }
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onFocus={onFocus}
@@ -128,11 +116,10 @@ export default function Input({
       </div>
       {message && (
         <p
-          className={classNames(
-            className,
-            'mt-2 text-sm leading-5',
-            'text-grey-500',
-          )}
+          className={
+           
+            'mt-2 text-sm leading-5'
+          }
         >
           {message}
         </p>
