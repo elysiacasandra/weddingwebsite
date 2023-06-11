@@ -168,7 +168,7 @@ const handleAdditionalGuestsChange = (event: { target: { value: React.SetStateAc
 };
 
   return (
-    <main className="flex min-h-screen flex-col justify-between">
+    <main className="flex min-h-screen flex-col justify-between overflow-x-hidden">
       <div>
         <div className='h-screen'>
         <video
