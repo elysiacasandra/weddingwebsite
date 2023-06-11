@@ -31,17 +31,21 @@ const [lastNameAG5, setLastNameAG5] = useState<string>('')
 const [dietaryRequirementAG5, setDietaryRequirementAG5] = useState<string>('')
 const [attendanceStatus, setAttendanceStatus] = useState<string>('')
 const [attendanceStatusFinal, setAttendanceStatusFinal] = useState<string>('')
-const [screenSize, setScreenSize] = useState(window.innerWidth);
+const [screenSize, setScreenSize] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth : 0
+  );
 
   const handleWindowResize = () => {
     setScreenSize(window.innerWidth);
   };
 
   useEffect(() => {
-    window.addEventListener('resize', handleWindowResize);
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleWindowResize);
+      return () => {
+        window.removeEventListener('resize', handleWindowResize);
+      };
+    }
   }, []);
 
 const scrollToRsvp = () => {
