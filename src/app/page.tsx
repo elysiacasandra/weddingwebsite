@@ -620,6 +620,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
 </div>
 
 <div className="flex items-center justify-center">
+  {mobileNumber !== '' && firstName !== '' && lastName !== '' && additionalGuests !== '' && attendanceStatus !== '' ? (
   <button
     type="submit"
     onClick={(event) => submitForm(event)}
@@ -627,6 +628,18 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
 style={{ backgroundColor: '#BFDACC', color: '#729A90', padding: '0.5rem 1.5rem', border: 'none' }}>
     Submit
   </button>
+  ) : (
+    <button
+    disabled
+    type="submit"
+    onClick={(event) => submitForm(event)}
+    className="px-6 py-2 text-white font-semibold transition duration-150 ease-in-out shadow-md hover:bg-green-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-700"
+style={{  backgroundColor: '#BFDACC', color: '#729A90', padding: '0.5rem 1.5rem', border: 'none', cursor: 'not-allowed',
+opacity: 0.5 }}>
+    Submit
+  </button>
+  )}
+    
   {error !== '' && <p className="text-red-700">We were unable to submit your RSVP. Please review your form inputs.</p>}
 </div>
 </form>        
