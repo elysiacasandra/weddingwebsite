@@ -35,21 +35,6 @@ const [screenSize, setScreenSize] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth : 0
   );
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Disable horizontal scrolling
-      window.scrollTo(0, window.pageYOffset);
-    };
-
-    // Add event listener for scroll
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      // Clean up the event listener when the component unmounts
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   const handleWindowResize = () => {
     setScreenSize(window.innerWidth);
   };
@@ -184,7 +169,7 @@ const handleAdditionalGuestsChange = (event: { target: { value: React.SetStateAc
 
   return (
     <main className="flex min-h-screen flex-col justify-between">
-      <div style={{ overflowX: 'hidden' }}>
+      <div>
         <div className='h-screen'>
         <video
           src="/The-Continental-Homepage-Web-Loop-v2.mp4"
