@@ -337,7 +337,7 @@ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 
         </div>
       </div>
     </div>
-<div id='rsvp' className='pb-16 min-h-screen bg-FCF9F7 flex flex-col items-center justify-center' >
+<div id='rsvp' className='mx-8 md:mx-0 pb-16 min-h-screen bg-FCF9F7 flex flex-col items-center justify-center' >
         <div className='pt-16 pb-4' style={{ fontSize: '3rem', color: '#2B1105' }}>RSVP</div>
         
         {success === '' &&  <div style={{ fontSize: '1rem', color: '#2B1105' }}>Please RSVP by the 1st of August.</div>}
